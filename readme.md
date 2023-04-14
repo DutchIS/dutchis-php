@@ -3,6 +3,12 @@ This is a is a lightweight wrapper for the DutchIS API.
 
 Compatible with PHP 7.4, 8.0, 8.1, 8.2.
 
+## Installation
+Install this api wrapper and integrate it inside your PHP application with Composer
+```sh
+composer require dutchis/dutchis-php
+```
+
 ## Example
 ```php
 <?php
