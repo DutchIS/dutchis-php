@@ -1,0 +1,22 @@
+{
+    "name": "dutchis/dutchis-php",
+    "type": "library",
+    "description": "DutchIS PHP API",
+    "keywords": ["DutchIS", "API", "PHP", "Cloud"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DutchIS",
+            "email": "development@dutchis.net"
+        }
+    ],
+    "require": {
+        "php-curl-class/php-curl-class": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DutchIS\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
