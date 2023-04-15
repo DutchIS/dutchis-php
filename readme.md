@@ -1,5 +1,5 @@
 # DutchIS PHP Wrapper
-This is a is a lightweight wrapper for the DutchIS API.
+This is a is a lightweight wrapper for the DutchIS API. API documentation can be found here https://dutchis.net/api/docs.
 
 Compatible with PHP 7.4, 8.0, 8.1, 8.2.
 
