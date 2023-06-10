@@ -4,14 +4,23 @@ namespace DutchIS;
 
 use Curl\Curl;
 
+
+enum HttpMethod : string {
+    case GET = 'get';
+    case POST = 'post';
+    case PUT = 'put';
+    case DELETE = 'delete';
+}
+
 class Api
 {
-    protected static $apiEndpoint = 'https://dutchis.net/api';
-    protected static $teamUuid;
-    protected static $client;
-    private static $apiToken;
+    protected string  $apiEndpoint = 'https://dutchis.net';
+    protected string  $teamUuid;
+    protected Curl $client;
+    private string $apiToken;
 
-    public function _construct(string $apiToken, string $teamUuid) {
+    public function __construct(string $apiToken, string $teamUuid)
+    {
         if (!isset($apiToken)) {
             throw new \Exception("No API token provided");
         }
@@ -22,10 +31,23 @@ class Api
 
         $this->apiToken = $apiToken;
         $this->teamUuid = $teamUuid;
-        
+
         $this->client = new Curl();
-        $this->client->setHeader('Authorization', "Bearer ". $this->apiToken);
+        $this->client->setHeader('Authorization', "Bearer " . $this->apiToken);
         $this->client->setHeader('X-Team-Uuid', $this->teamUuid);
+    }
+
+
+    private function doRequest(HttpMethod $method, string $path, array $data = null)
+    {
+        if (substr($path, 0, 1) === '/') {
+            $path = substr($path, 1);
+        }
+
+        $path = sprintf('%s/api/%s', $this->apiEndpoint, $path);
+        $method = $method->value;
+
+        return $this->client->{$method}($path, $data, $method);
     }
 
     /**
@@ -34,12 +56,9 @@ class Api
      * @param string $path path to send the request to
      * @param array $data the data to send
      */
-    public function get(string $path, array $data = null) {
-        if (substr($path, 0, 1) != '/') {
-            $path = '/' . $path;
-        }
-
-        return $this->client->get($path, $data, "GET");
+    public function get(string $path, array $data = null)
+    {
+        return $this->doRequest(HttpMethod::GET, $path, $data);
     }
 
     /**
@@ -48,12 +67,9 @@ class Api
      * @param string $path path to send the request to
      * @param array $data the data to send
      */
-    public function put(string $path, array $data = null) {
-        if (substr($path, 0, 1) != '/') {
-            $path = '/' . $path;
-        }
-
-        return $this->client->put($path, $data, "PUT");
+    public function put(string $path, array $data = null)
+    {
+        return $this->doRequest(HttpMethod::PUT, $path, $data);
     }
 
     /**
@@ -62,12 +78,9 @@ class Api
      * @param string $path path to send the request to
      * @param array $data the data to send
      */
-    public function post(string $path, array $data = null) {
-        if (substr($path, 0, 1) != '/') {
-            $path = '/' . $path;
-        }
-
-        return $this->client->post($path, $data, "POST");
+    public function post(string $path, array $data = null)
+    {
+       return $this->doRequest(HttpMethod::POST, $path, $data);
     }
 
     /**
@@ -75,11 +88,8 @@ class Api
      *
      * @param string $path path to send the request to
      */
-    public function delete(string $path) {
-        if (substr($path, 0, 1) != '/') {
-            $path = '/' . $path;
-        }
-
-        return $this->client->delete($path, null, "DELETE");
+    public function delete(string $path)
+    {
+       return $this->doRequest(HttpMethod::DELETE, $path, null);
     }
 }
