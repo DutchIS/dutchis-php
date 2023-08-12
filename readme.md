@@ -1,3 +1,5 @@
+<p align="center"><a href="https://dutchis.net" target="_blank"><img src="https://cdn.dutchis.net/dutchis/banner-white.svg" width="400"></a></p>
+
 # DutchIS PHP Wrapper
 This is a is a lightweight wrapper for the DutchIS API. API documentation can be found here https://dutchis.net/api/docs.
 
